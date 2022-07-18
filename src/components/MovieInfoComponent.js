@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import styled from "styled-components";
-
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,27 +58,28 @@ const MovieInfoComponent = (props) => {
   const [movieInfo, setMovieInfo] = useState();
   const { selectedMovie } = props;
 
+
   useEffect(() => {
     Axios.get(
-      'https://localhost:44372/api/User/Movies',
-    ).then((response) => setMovieInfo(response.data));
+      'https://localhost:44372/api/User/Actors',
+    ).then((response) => {
+      console.log(response)
+      setMovieInfo(response.data[selectedMovie])
+    });
   }, [selectedMovie]);
+
   return (
     <Container>
       {movieInfo ? (
         <>
-          <CoverImage src={movieInfo?.imageURL} alt={movieInfo?.name} />
+          <CoverImage src={movieInfo?.profilePictureURL} />
           <InfoColumn>
-            <MovieName>
-              {movieInfo?.name}: <span>{movieInfo?.name}</span>
-            </MovieName>
             <MovieInfo>
-              IMDB Rating: <span>{movieInfo?.id}</span>
+              Full Name: <span>{movieInfo?.fullName}</span>
             </MovieInfo>
             <MovieInfo>
-              price: <span>{movieInfo?.price}</span>
+              bio: <span>{movieInfo?.bio}</span>
             </MovieInfo>
-        
           </InfoColumn>
           <Close onClick={() => props.onMovieSelect()}>X</Close>
         </>
