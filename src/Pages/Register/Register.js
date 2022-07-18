@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import styles from "./Register.module.css";
-
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { onRegister } from "../../Service/authneticationService";
-
+import { useNavigate } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+// const navigate = useNavigator;
 const Register = () => {
   const { register, handleSubmit, errors } = useForm();
   const [message, setMessage] = useState();
-
+  const navigate = useNavigate();
   const onSubmit = async (data, e) => {
-    setMessage({
-      data: "Registration is in progress...",
-      type: "alert-warning",
-    });
-    data = {
-      UserName: data.name,
-      Email:data.email,
-      Password:data.password
+    setMessage(true);
+    try{
+      navigate("/login")
     }
-    let response = await onRegister(data)
+    catch(error){
+      setMessage(false)
+    }
+    // nv('/login')
     // response = await response.json();
   };
 
@@ -152,7 +151,7 @@ const Register = () => {
             </div>
             <div className="d-flex align-items-center justify-content-center">
               <button type="submit" className="btn btn-outline-primary">
-                Submit
+                submit
               </button>
               <button className="btn btn-link">
                 <Link to="/login">Cancel</Link>
